@@ -15,7 +15,6 @@ def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int
     result = None
 
     while huy:
-        print(len(huy))
         cur = huy.popleft()
         if array[cur.x][cur.y][cur.z] > 1:
             for bod in body:

@@ -1,19 +1,19 @@
 import numpy as np
 from models import GameState, Point3D, Snake, Food, Enemy
 
-array = np.array((1, 1, 1), dtype=np.int32)
+array = np.array((1, 1, 1), dtype=np.int8)
 
 def create_field(map_size_x, map_size_y, map_size_z):
     global array
-    array = np.ones((map_size_x, map_size_y, map_size_z), dtype=np.int32)
+    array = np.ones((map_size_x, map_size_y, map_size_z), dtype=np.int8)
 
 def poke_anything(list_cord: Point3D, value: int):
     global array
-    array[list_cord.root[0]][list_cord.root[1]][list_cord.root[2]] = np.int32(value)
+    array[list_cord.root[0]][list_cord.root[1]][list_cord.root[2]] = np.int8(value)
 
 def poke_all_oranges(oranges: list[Food]):
     for orange in oranges:
-        poke_anything(orange.c, orange.points)
+        poke_anything(orange.c, 2)
 
 def poke_my_snakes(snakes: list[Snake]):
     for snake in snakes:
