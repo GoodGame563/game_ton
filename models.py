@@ -1,60 +1,57 @@
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from typing import List, Optional, Literal
+from pydantic import BaseModel, Field, RootModel
 from datetime import datetime
 
 
-class Direction3D(BaseModel):
-    x: int
-    y: int
-    z: int
+class Direction3D(RootModel):
+    root: List[int]  # [x, y, z]
 
-class Point3D(BaseModel):
-    x: int
-    y: int
-    z: int
+class Point3D(RootModel):
+    root: List[int]  # [x, y, z]
 
-class SnakeRequestItem(BaseModel):
+class SnakeSmall(BaseModel):
     id: str
     direction: Direction3D
 
 class SnakeRequest(BaseModel):
-    snakes: List[SnakeRequestItem]
+    snakes: List[SnakeSmall]
 
 class Snake(BaseModel):
     id: str
-    direction: Direction3D
-    old_direction: Optional[Direction3D]
+    direction: List[int]  # [x, y, z]
+    oldDirection: List[int]  # [x, y, z]
     geometry: List[Point3D]
-    death_count: int
-    status: str
-    revive_remain_ms: int
+    deathCount: int
+    status: Literal["alive", "dead"]
+    reviveRemainMs: int
 
 class Enemy(BaseModel):
     geometry: List[Point3D]
-    status: str
+    status: Literal["alive", "dead"]
     kills: int
 
 class Food(BaseModel):
     c: Point3D
     points: int
+    type: Optional[int]  # Добавлен атрибут type
 
 class SpecialFood(BaseModel):
     golden: List[Point3D]
     suspicious: List[Point3D]
 
 class GameState(BaseModel):
-    map_size: List[int]
+    mapSize: List[int]  # [width, height, depth]
     name: str
     points: int
     fences: List[Point3D]
     snakes: List[Snake]
     enemies: List[Enemy]
     food: List[Food]
-    special_food: SpecialFood
+    specialFood: Optional[SpecialFood]
     turn: int
-    revive_timeout_sec: int
-    tick_remain_ms: int
-    errors: Optional[List[str]]
+    reviveTimeoutSec: int
+    tickRemainMs: int
+    errors: List[str]
 
 class Round(BaseModel):
     name: str
