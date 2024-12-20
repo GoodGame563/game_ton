@@ -1,7 +1,8 @@
-from classes import Point
+from classes import Point, FoodLength
 from collections import deque
-from models import GameState, Snake
+from models import GameState, Snake, Food
 import numpy as np 
+from math import sqrt
 
 
 def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int) -> Point:
@@ -53,3 +54,26 @@ def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int
     
     return result
 
+def new_algo_find(snake: Snake, foods: list[Food]) -> FoodLength:
+    elements = snake.geometry.copy()
+    elements.reverse()
+    first_element = elements.pop()
+    elements.reverse()
+
+    head = Point(first_element.root[0], first_element.root[1], first_element.root[2])
+    result = []
+
+    for food in foods:
+        x = food.c.root[0]
+        y = food.c.root[1]
+        z = food.c.root[2]
+
+        distance = sqrt(
+            (x - head.x) ** 2 +
+            (y - head.y) ** 2 +
+            (z - head.z) ** 2
+        )
+
+        result.append(FoodLength(food=food, length=distance))
+
+    return min(result, key=lambda obj : obj.length)

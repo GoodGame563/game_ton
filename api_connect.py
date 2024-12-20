@@ -23,12 +23,23 @@ url = "https://games-test.datsteam.dev/play/snake3d/player/move"
 
 def get_map(): 
     data = {
-        'snakes': []
+        "snakes": []
     }
     response = requests.post(url, headers=headers, json=data)
-    return GameState(**response.json())
+    try:
+        result = GameState(**response.json())
+        return result
+    except Exception as e:
+        # print(f"Error: {e}")
+        return None
+   
 
 def move_snakes(snakes: SnakeRequest):
-    response = requests.post(url, headers=headers, json=snakes.model_dump_json())
+    
+    data ={
+        "snakes": [snake.dict() for snake in snakes.snakes]
+    }
+    response = requests.post(url, headers=headers, json=data)
+    print (response.status_code)
     return GameState(**response.json())
 

@@ -48,7 +48,7 @@ def move(snake: Snake, orange: Point, field: np.ndarray, x_len:int, y_len:int, z
     else:
         result = head
 
-    return result
+    return result - head
 
 
 def _check_body(body, next_point):
