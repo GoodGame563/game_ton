@@ -1,6 +1,6 @@
 import numpy as np
 from models import GameState, Point3D, Snake, Food, Enemy
-
+import json
 array = np.array((1, 1, 1), dtype=np.int32)
 
 def create_field(map_size_x, map_size_y, map_size_z):
@@ -9,7 +9,10 @@ def create_field(map_size_x, map_size_y, map_size_z):
 
 def poke_anything(list_cord: Point3D, value: int):
     global array
-    array[list_cord.root[0]][list_cord.root[1]][list_cord.root[2]] = np.int32(value)
+    try:
+        array[list_cord.root[0]%10][list_cord.root[1]%10][list_cord.root[2]%10] = np.int32(value)
+    except IndexError:
+        print("Index out of range")
 
 def poke_all_oranges(oranges: list[Food]):
     for orange in oranges:
@@ -38,6 +41,4 @@ def return_fields(gs: GameState) -> np.ndarray:
     poke_all_oranges(gs.food)
     poke_enemy_snakes(gs.enemies)
     return array
-
-    
 
