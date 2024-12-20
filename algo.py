@@ -27,22 +27,22 @@ def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int
             result = cur
             break
         
-        if x_len > cur.x + 1:
+        if x_len - 1 > cur.x + 1:
             huy.append(Point(cur.x+1, cur.y, cur.z))
         
-        if y_len > cur.y + 1:
+        if y_len - 1 > cur.y + 1:
             huy.append(Point(cur.x+1, cur.y, cur.z))
         
-        if z_len > cur.z + 1:
+        if z_len - 1 > cur.z + 1:
             huy.append(Point(cur.x+1, cur.y, cur.z))
         
-        if cur.x - 1:
+        if cur.x - 1 < 0:
             huy.append(Point(cur.x+1, cur.y, cur.z))
         
-        if cur.y - 1:
+        if cur.y - 1 < 0:
             huy.append(Point(cur.x+1, cur.y, cur.z))
         
-        if cur.z - 1:
+        if cur.z - 1 < 0:
             huy.append(Point(cur.x+1, cur.y, cur.z))
 
         visited.append(cur)
