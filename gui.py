@@ -2,7 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
-
+from api_connect import get_map
+from field import return_fields
+from models import GameState
+import json
 # Визуализатор с анимацией
 def visualize_3d_array_with_animation():
     fig = plt.figure()
@@ -15,9 +18,12 @@ def visualize_3d_array_with_animation():
     colors = []
 
     # Функция для обновления графика на каждом кадре анимации
-    def update_plot():
+    def update_plot(rofl):
         # Получаем массив данных через return_fields
-        gs = 
+        gs = get_map()
+        if gs == None:
+            with open('data.json') as file:
+                gs = GameState(**json.load(file))
         arr = return_fields(gs)
         
         # Очищаем текущие данные
@@ -63,10 +69,10 @@ def visualize_3d_array_with_animation():
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
-        ax.set_title(f'Frame {gs}')
+        # ax.set_title(f'Frame {rofl}')
 
     # Создание анимации
-    ani = FuncAnimation(fig, update_plot, frames=10, interval=1000, repeat=True)
+    ani = FuncAnimation(fig, update_plot, frames=1000, interval=1000, repeat=True)
 
     plt.show()
 
