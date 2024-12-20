@@ -74,7 +74,7 @@ def move(body, head, orange, field):
 
     set_next_movie()
     
-    return head
+    return result
 
 def check_body(body, next_point):
     for bod in body:
