@@ -4,10 +4,10 @@ from datetime import datetime
 
 
 class Direction3D(RootModel):
-    root: List[int]  # [x, y, z]
+    root: List[int] 
 
 class Point3D(RootModel):
-    root: List[int]  # [x, y, z]
+    root: List[int]  
 
 class SnakeSmall(BaseModel):
     id: str
@@ -18,8 +18,8 @@ class SnakeRequest(BaseModel):
 
 class Snake(BaseModel):
     id: str
-    direction: List[int]  # [x, y, z]
-    oldDirection: List[int]  # [x, y, z]
+    direction: List[int]  
+    oldDirection: List[int]  
     geometry: List[Point3D]
     deathCount: int
     status: Literal["alive", "dead"]
