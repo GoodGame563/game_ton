@@ -24,52 +24,52 @@ def set_next_movie():
     else:
         next_movie = B.x
 
-def move(body, head, orange, field):
+def move(body, head, orange, field, x_len, y_len, z_len):
     result = Point(head.x, head.y, head.z)
     if next_movie == B.x:
-        if head.x < orange.x and check_body(body=body, next_point=Point(head.x+1, head.y, head.z)):
+        if head.x < orange.x and check_body(body=body, next_point=Point(head.x+1, head.y, head.z)) and head.x+1 < x_len:
             result.x += 1
-        elif head.x > orange.x and check_body(body=body, next_point=Point(head.x-1, head.y, head.z)):
+        elif head.x > orange.x and check_body(body=body, next_point=Point(head.x-1, head.y, head.z)) and head.x - 1 > 0:
             result.x -= 1
         else:
-            if head.y < orange.y and check_body(body=body, next_point=Point(head.x, head.y+1, head.z)):
+            if head.y < orange.y and check_body(body=body, next_point=Point(head.x, head.y+1, head.z)) and head.y+1 < y_len:
                 result.y += 1
-            elif head.y > orange.y and check_body(body=body, next_point=Point(head.x, head.y-1, head.z)):
+            elif head.y > orange.y and check_body(body=body, next_point=Point(head.x, head.y-1, head.z)) and head.y-1 > 0:
                 result.y -= 1
 
-            elif head.z < orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z+1)):
+            elif head.z < orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z+1)) and head.z+1 < z_len:
                 result.z += 1
-            elif head.z > orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z-1)):
+            elif head.z > orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z-1)) and head.z-1 < 0:
                 result.z -= 1
     
     if next_movie == B.y:
-        if head.y < orange.y and check_body(body=body, next_point=Point(head.x, head.y+1, head.z)):
-            result.y += 1
-        elif head.y > orange.y and check_body(body=body, next_point=Point(head.x, head.y-1, head.z)):
+        if head.y < orange.y and check_body(body=body, next_point=Point(head.x, head.y+1, head.z)) and head.y+1 < y_len:
+                result.y += 1
+        elif head.y > orange.y and check_body(body=body, next_point=Point(head.x, head.y-1, head.z)) and head.y-1 > 0:
             result.y -= 1
         else:
-            if head.x < orange.x and check_body(body=body, next_point=Point(head.x+1, head.y, head.z)):
+            if head.x < orange.x and check_body(body=body, next_point=Point(head.x+1, head.y, head.z)) and head.x+1 < x_len:
                 result.x += 1
-            elif head.x > orange.x and check_body(body=body, next_point=Point(head.x-1, head.y, head.z)):
+            elif head.x > orange.x and check_body(body=body, next_point=Point(head.x-1, head.y, head.z)) and head.x - 1 > 0:
                 result.x -= 1
-            elif head.z < orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z+1)):
+            elif head.z < orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z+1)) and head.z+1 < z_len:
                 result.z += 1
-            elif head.z > orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z-1)):
+            elif head.z > orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z-1)) and head.z-1 < 0:
                 result.z -= 1
     
     if next_movie == B.z:
-        if head.z < orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z+1)):
-            result.z += 1
-        elif head.z > orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z-1)):
+        if head.z < orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z+1)) and head.z+1 < z_len:
+                result.z += 1
+        elif head.z > orange.z and check_body(body=body, next_point=Point(head.x, head.y, head.z-1)) and head.z-1 < 0:
             result.z -= 1
         else:
-            if head.x < orange.x and check_body(body=body, next_point=Point(head.x+1, head.y, head.z)):
+            if head.x < orange.x and check_body(body=body, next_point=Point(head.x+1, head.y, head.z)) and head.x+1 < x_len:
                 result.x += 1
-            elif head.x > orange.x and check_body(body=body, next_point=Point(head.x-1, head.y, head.z)):
+            elif head.x > orange.x and check_body(body=body, next_point=Point(head.x-1, head.y, head.z)) and head.x - 1 > 0:
                 result.x -= 1
-            if head.y < orange.y and check_body(body=body, next_point=Point(head.x, head.y+1, head.z)):
+            if head.y < orange.y and check_body(body=body, next_point=Point(head.x, head.y+1, head.z)) and head.y+1 < y_len:
                 result.y += 1
-            elif head.y > orange.y and check_body(body=body, next_point=Point(head.x, head.y-1, head.z)):
+            elif head.y > orange.y and check_body(body=body, next_point=Point(head.x, head.y-1, head.z)) and head.y-1 > 0:
                 result.y -= 1
 
     set_next_movie()
