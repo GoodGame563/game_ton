@@ -1,8 +1,5 @@
 from models import GameState, SnakeRequest
 import requests
-
-import json
-
 token = '0bf8a4c7-3f4d-4ed3-8749-f52054c66bfa'
 
 server_url = 'https://games-test.datsteam.dev/play/snake3d'
