@@ -5,11 +5,14 @@ import numpy as np
 from math import sqrt
 
 def move(snake: Snake, orange: Point, field: np.ndarray, x_len:int, y_len:int, z_len:int) -> Point:
-    first_element = snake.geometry.pop()
-    head = Point(first_element[0], first_element[1], first_element[2])
+    elements = snake.geometry.copy()
+    elements.reverse()
+    first_element = elements.pop()
+    elements.reverse()
+    head = Point(first_element.root[0], first_element.root[1], first_element.root[2])
     body = []
-    for i in snake.geometry:
-        body.append(Point(i[0], i[1], i[2]))
+    for i in elements:
+        body.append(Point(i.root[0], i.root[1], i.root[2]))
 
     result = Point(head.x, head.y, head.z)
 

@@ -5,10 +5,14 @@ import numpy as np
 
 
 def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int) -> Point:
-    first_element = snake.geometry[1]
+    elements = snake.geometry.copy()
+    elements.reverse()
+    first_element = elements.pop()
+    elements.reverse()
+
     head = Point(first_element.root[0], first_element.root[1], first_element.root[2])
     body = []
-    for i in snake.geometry[1:]:
+    for i in elements:
         body.append(Point(i[0], i[1], i[2]))
     huy = deque()
     huy.append(head)
@@ -31,20 +35,21 @@ def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int
             huy.append(Point(cur.x+1, cur.y, cur.z))
         
         if y_len - 1 > cur.y + 1:
-            huy.append(Point(cur.x+1, cur.y, cur.z))
+            huy.append(Point(cur.x, cur.y+1, cur.z))
         
         if z_len - 1 > cur.z + 1:
-            huy.append(Point(cur.x+1, cur.y, cur.z))
+            huy.append(Point(cur.x, cur.y, cur.z+1))
         
         if cur.x - 1 < 0:
-            huy.append(Point(cur.x+1, cur.y, cur.z))
+            huy.append(Point(cur.x-1, cur.y, cur.z))
         
         if cur.y - 1 < 0:
-            huy.append(Point(cur.x+1, cur.y, cur.z))
+            huy.append(Point(cur.x, cur.y-1, cur.z))
         
         if cur.z - 1 < 0:
-            huy.append(Point(cur.x+1, cur.y, cur.z))
+            huy.append(Point(cur.x, cur.y, cur.z-1))
 
         visited.append(cur)
     
     return result
+
