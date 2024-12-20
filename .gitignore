@@ -1,2 +1,4 @@
-*_venv
-__pycache__
+**/*_venv
+**/__pycache__
+**/.venv
+**/.env
