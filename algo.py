@@ -9,7 +9,7 @@ class A:
     y: int
     z: int
 
-def find_orange(head, array, body):
+def find_orange(head, array, body, x_len, y_len, z_len):
     huy = deque()
     huy.append(head)
     result = None
@@ -23,13 +23,13 @@ def find_orange(head, array, body):
             result = cur
             break
         
-        if len(array) > cur.x + 1:
+        if x_len > cur.x + 1:
             huy.append(A(cur.x+1, cur.y, cur.z))
         
-        if len(array) > cur.y + 1:
+        if y_len > cur.y + 1:
             huy.append(A(cur.x+1, cur.y, cur.z))
         
-        if len(array) > cur.z + 1:
+        if z_len > cur.z + 1:
             huy.append(A(cur.x+1, cur.y, cur.z))
         
         if cur.x - 1:
