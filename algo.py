@@ -94,7 +94,7 @@ def find_nearest_safe_food(
         """Эвристика: Манхэттенское расстояние между точками a и b."""
         return abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])
 
-    def find_path(start, goals, max_depth=50):
+    def find_path(start, goals, max_depth=100):
         """
         Поиск пути с использованием A* до ближайшей цели из списка goals.
         Ограничение по глубине поиска (max_depth) для ускорения.

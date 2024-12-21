@@ -24,7 +24,7 @@ def move(snake: Snake, orange: Point, field: np.ndarray, x_len:int, y_len:int, z
             0 <= next_point.y < y_len and
             0 <= next_point.z < z_len and
             field[next_point.x][next_point.y][next_point.z] != 0 and
-            _check_body(body, next_point)
+            _check_body(body, next_point) and field[next_point.x][next_point.y][next_point.z] != -2 and field[next_point.x][next_point.y][next_point.z] > -2
         )
 
     def distance_to_goal(point: Point):
@@ -44,6 +44,7 @@ def move(snake: Snake, orange: Point, field: np.ndarray, x_len:int, y_len:int, z
     ]
 
     valid_neighbors = [p for p in neighbors if is_valid_move(p)]
+    print(len(valid_neighbors))
 
     if valid_neighbors:
         result = min(valid_neighbors, key=distance_to_goal)
