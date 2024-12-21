@@ -1,12 +1,17 @@
-from classes import Point, FoodLength
 from collections import deque
-from models import GameState, Snake, Food, Enemy
 from typing import List
-import numpy as np 
-from math import sqrt, floor
 import heapq
+from math import sqrt, floor
+
+import numpy as np 
+
+from classes import Point, FoodLength
+from models import Snake, Food, Enemy
 
 
+def find_max_orange(snake: Snake, foods: List[Food]) -> Point:
+    max_food = max(foods, key=lambda obj: obj.points)
+    return Point(max_food.c.root[0], max_food.c.root[1], max_food.c.root[2])
 
 def find_orange(snake: Snake, array: np.ndarray, x_len:int, y_len:int, z_len:int) -> Point:
     elements = snake.geometry.copy()
