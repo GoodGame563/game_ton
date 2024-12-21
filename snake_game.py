@@ -54,14 +54,17 @@ class SnakeGame(ABC):
         if self._current_path is None:
             self._current_path = find_optimal_path(self._snake, self._current_food, self._field, x_len, y_len, z_len)
 
-        next_point = self._current_path[self._next_path_idx]
-
-        if self._field[next_point.x][next_point.y][next_point.z] < 1:
-            self._current_path = find_optimal_path(self._snake, self._current_food, self._field, x_len, y_len, z_len)
-            self._next_path_idx = 0
+        try:
             next_point = self._current_path[self._next_path_idx]
 
-        self._next_path_idx += 1
+            if self._field[next_point.x][next_point.y][next_point.z] < 1:
+                self._current_path = find_optimal_path(self._snake, self._current_food, self._field, x_len, y_len, z_len)
+                self._next_path_idx = 0
+                next_point = self._current_path[self._next_path_idx]
+
+            self._next_path_idx += 1
+        except IndexError:
+            self.reset()
 
         head = self._snake.geometry[0]
         head_point = Point(head.root[0], head.root[1], head.root[2])
