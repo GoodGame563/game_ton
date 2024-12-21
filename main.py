@@ -86,7 +86,7 @@ while True:
         if food.type != 0:
             print(f"{food}")
     array = return_fields(gs)
-    request: SnakeRequest = SnakeRequest([])
+    request: SnakeRequest = SnakeRequest(snakes=[])
 
     for snake in gs.snakes:
         for b in snakes:

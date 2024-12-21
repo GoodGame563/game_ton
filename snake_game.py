@@ -10,7 +10,7 @@ from algo import find_nearest_safe_food, find_max_orange
 
 class SnakeGame(ABC):
     def __init__(self, snake: Snake):
-        self._snake_id: str = Snake.id
+        self._snake_id: str = snake.id
         self._current_food: Point | None = None
         self._current_path: List[Point] | None = None
         self._next_path_idx: int = 0
@@ -40,7 +40,7 @@ class SnakeGame(ABC):
             raise Exception("field is none")
 
         if self._current_food is None or self._field[self._current_food.x][self._current_food.y][self._current_food.z] < 2:
-            self._current_food = self._find_new_food(
+            self._find_new_food(
                 snake=self._snake, 
                 field=self._field, 
                 x_len=x_len, 
@@ -89,5 +89,5 @@ class SnakeGameBiggest(SnakeGame):
     def _find_new_food(**kwargs) -> Point:
         return find_max_orange(
             snake=kwargs["snake"],
-            foods=snake["food"]
+            foods=kwargs["food"]
         )
