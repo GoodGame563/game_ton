@@ -63,7 +63,7 @@ class SnakeGame(ABC):
 
         self._next_path_idx += 1
 
-        head = Snake.geometry[0]
+        head = self._snake.geometry[0]
         head_point = Point(head.root[0], head.root[1], head.root[2])
         next_dir = head_point - next_point
 
