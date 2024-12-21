@@ -40,6 +40,5 @@ def move_snakes(snakes: SnakeRequest):
         "snakes": [snake.dict() for snake in snakes.snakes]
     }
     response = requests.post(url, headers=headers, json=data)
-    print (response.status_code)
     return GameState(**response.json())
 

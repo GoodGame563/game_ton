@@ -6,6 +6,7 @@ from api_connect import get_map
 from field import return_fields
 from models import GameState
 import json
+
 # Визуализатор с анимацией
 def visualize_3d_array_with_animation():
     fig = plt.figure()
@@ -21,11 +22,11 @@ def visualize_3d_array_with_animation():
     def update_plot(rofl):
         # Получаем массив данных через return_fields
         gs = get_map()
-        if gs == None:
+        if gs is None:
             with open('data.json') as file:
                 gs = GameState(**json.load(file))
         arr = return_fields(gs)
-        
+
         # Очищаем текущие данные
         ax.cla()
 
@@ -34,7 +35,7 @@ def visualize_3d_array_with_animation():
         y_coords.clear()
         z_coords.clear()
         colors.clear()
-        
+
         # Заполнение данных
         x_len, y_len, z_len = arr.shape
         for x in range(x_len):
@@ -61,18 +62,23 @@ def visualize_3d_array_with_animation():
                         y_coords.append(y)
                         z_coords.append(z)
                         colors.append('y')  # желтый для 2
-        
+
         # Отображаем новые точки
         ax.scatter(x_coords, y_coords, z_coords, c=colors, marker='o')
+
+        # Установка пределов осей на основе gs.mapSize
+        map_size = gs.mapSize
+        ax.set_xlim(0, map_size[0])
+        ax.set_ylim(0, map_size[1])
+        ax.set_zlim(0, map_size[2])
 
         # Оформляем график
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
-        # ax.set_title(f'Frame {rofl}')
 
     # Создание анимации
-    ani = FuncAnimation(fig, update_plot, frames=1000, interval=1000, repeat=True)
+    ani = FuncAnimation(fig, update_plot, frames=10, interval=5000, repeat=True)
 
     plt.show()
 
