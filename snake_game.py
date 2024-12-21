@@ -3,7 +3,7 @@ from typing import List
 from abc import ABC, abstractmethod
 
 
-from models import Snake, Food, SnakeSmall
+from models import Snake, Food, SnakeSmall, Direction3D
 from classes import Point
 from move import find_optimal_path
 from algo import find_nearest_safe_food, find_max_orange
@@ -66,6 +66,7 @@ class SnakeGame(ABC):
         head = self._snake.geometry[0]
         head_point = Point(head.root[0], head.root[1], head.root[2])
         next_dir = head_point - next_point
+        next_dir = Direction3D(root=next_dir.to_list())
 
         return SnakeSmall(id=self._snake_id, direction=next_dir)
     
