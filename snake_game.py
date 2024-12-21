@@ -53,6 +53,8 @@ class SnakeGame(ABC):
 
         if self._current_path is None:
             self._current_path = find_optimal_path(self._snake, self._current_food, self._field, x_len, y_len, z_len)
+        
+        next_point = None
 
         try:
             next_point = self._current_path[self._next_path_idx]
