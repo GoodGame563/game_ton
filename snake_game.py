@@ -40,7 +40,7 @@ class SnakeGame(ABC):
             raise Exception("field is none")
 
         if self._current_food is None or self._field[self._current_food.x][self._current_food.y][self._current_food.z] < 2:
-            self._find_new_food(
+            self._current_food = self._find_new_food(
                 snake=self._snake, 
                 field=self._field, 
                 x_len=x_len, 
@@ -70,24 +70,15 @@ class SnakeGame(ABC):
         return SnakeSmall(id=self._snake_id, direction=next_dir)
     
     @abstractmethod
-    def _find_new_food(**kwargs) -> Point:
+    def _find_new_food(self, snake: Snake, field: np.ndarray, x_len: int, y_len: int, z_len: int, foods: List[Food]) -> Point:
         pass
 
 
 class SnakeGameFastest(SnakeGame):
-    def _find_new_food(**kwargs) -> Point:
-        return find_nearest_safe_food(
-            snake=kwargs["snake"],
-            array=kwargs["field"],
-            x_len=kwargs["x_len"],
-            y_len=kwargs["y_len"],
-            z_len=kwargs["z_len"]
-        )
+    def _find_new_food(self, snake: Snake, field: np.ndarray, x_len: int, y_len: int, z_len: int, foods: List[Food]) -> Point:
+        return find_nearest_safe_food(snake, field, x_len, y_len, z_len, foods)
 
 
 class SnakeGameBiggest(SnakeGame):
-    def _find_new_food(**kwargs) -> Point:
-        return find_max_orange(
-            snake=kwargs["snake"],
-            foods=kwargs["food"]
-        )
+    def _find_new_food(self, snake: Snake, field: np.ndarray, x_len: int, y_len: int, z_len: int, foods: List[Food]) -> Point:
+        return find_max_orange(snake, foods)
