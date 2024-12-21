@@ -82,13 +82,11 @@ while True:
 
     # with open('data.json') as file:
     #     gs = GameState(**json.load(file))
-    for food in gs.food:
-        if food.type != 0:
-            print(f"{food}")
     array = return_fields(gs)
     request: SnakeRequest = SnakeRequest(snakes=[])
-
+    
     for snake in gs.snakes:
+        print(f"{snake}")
         for b in snakes:
             assert b.value is not None
             if not b.value.is_id(snake.id):
