@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from models import Food, SpecialFood
+from models import Food
 
 @dataclass
 class Point:
@@ -14,5 +14,5 @@ class Point:
 
 @dataclass
 class FoodLength:
-    food: Food | SpecialFood
+    food: Food
     length: int
