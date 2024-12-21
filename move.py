@@ -112,7 +112,7 @@ def find_optimal_path(snake: Snake, goal: Point, field: np.ndarray, x_len: int, 
         return (0 <= point.x < x_len and 
                 0 <= point.y < y_len and 
                 0 <= point.z < z_len and 
-                field[point.x][point.y][point.z] == 1 and  # клетка должна быть свободной (значение 1)
+                field[point.x][point.y][point.z] >= 1 and 
                 point not in [Point(seg.root[0], seg.root[1], seg.root[2]) for seg in snake.geometry])
 
     # Эвристическая функция для A* (расстояние до цели)
