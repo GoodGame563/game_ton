@@ -17,6 +17,9 @@ class SnakeGame(ABC):
         self._snake: Snake = snake
         self._field: np.ndarray | None = None
 
+    def is_id(self, snake_id: str) -> bool:
+        return self._snake_id == snake_id
+
     def set_field(self, field: np.ndarray) -> None:
         self._field = field.copy()
     
@@ -25,6 +28,12 @@ class SnakeGame(ABC):
             raise Exception("Invalid snake")
         
         self._snake = snake
+
+    def reset(self) -> None:
+        self._current_food = None
+        self._current_path = None
+        self._next_path_idx = 0
+        self._field = None
 
     def do_move(self, food: List[Food], x_len = 0, y_len= 0, z_len = 0) -> SnakeSmall:
         if self._field is None :
@@ -39,6 +48,8 @@ class SnakeGame(ABC):
                 z_len=z_len, 
                 foods=food
                 )
+            
+            self._current_path = find_optimal_path(self._snake, self._current_food, self._field, x_len, y_len, z_len)
 
         if self._current_path is None:
             self._current_path = find_optimal_path(self._snake, self._current_food, self._field, x_len, y_len, z_len)

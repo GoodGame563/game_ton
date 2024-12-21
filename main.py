@@ -8,6 +8,8 @@ import json
 import time
 import numpy as np
 
+from snake_game import SnakeGameFastest, SnakeGameBiggest, SnakeGame
+
 
 # def get_neighbors_around_point(snake: Snake, array: np.ndarray, radius: int) -> list[Point]:
 #     elements = snake.geometry.copy()
@@ -45,31 +47,63 @@ import numpy as np
     # go_to = find_optimal_path(snake, orage_cord, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
     # print(len(go_to))  
 
+class MutableValue:
+    def __init__(self, value):
+        self.value: SnakeGame | None = value
+
+snake1fastest: MutableValue = MutableValue(None)
+snake2fastest: MutableValue = MutableValue(None)
+snake_biggest: MutableValue = MutableValue(None)
+
+snakes = [snake1fastest, snake2fastest, snake_biggest]
 
 while True:
     gs = get_map()
-    if gs == None: 
+    if gs is None: 
+        snake1fastest = MutableValue(None)
+        snake2fastest = MutableValue(None)
+        snake_biggest = MutableValue(None)
         print("Жду запуск")
         time.sleep(5)
         continue
+
+    for snake in gs.snakes:
+        if snake1fastest.value  is None:
+            snake1fastest.value = SnakeGameFastest(snake)
+            continue
+        
+        if snake2fastest.value  is None:
+            snake2fastest.value = SnakeGameFastest(snake)
+            continue
+
+        if snake_biggest.value  is None:
+            snake_biggest.value = SnakeGameBiggest(snake)
+            break
+
     # with open('data.json') as file:
     #     gs = GameState(**json.load(file))
     for food in gs.food:
         if food.type != 0:
             print(f"{food}")
     array = return_fields(gs)
-    go_to_snakes = []
-    snake_num = 1
-    for snake in gs.snakes:     
-        print(f"snake number {snake_num} id snake {snake.id} snake status {snake.status} snake length {len (snake.geometry)}")
-        if snake.status == "alive":
-            array = return_fields(gs)
-            new_go = new_algo_find_v2(snake, gs.food, gs.enemies)
-            orage_cord = Point(new_go.food.c.root[0], new_go.food.c.root[1],new_go.food.c.root[2])
-            go_to = move(snake, orage_cord, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
-            direction = Direction3D(go_to.to_list())
-            gs = move_snakes(SnakeRequest(snakes=[SnakeSmall(id = snake.id, direction = direction)]))
+    request: SnakeRequest = SnakeRequest([])
+
+    for snake in gs.snakes:
+        for b in snakes:
+            assert b.value is not None
+            if not b.value.is_id(snake.id):
+                continue
             
+            if snake.status != "alive":
+                b.value.reset()
+                continue
+
+            b.value.set_field(array)
+            b.value.set_snake(snake)
+            hyui = b.value.do_move(gs.food, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
+            request.snakes.append(hyui)
+        
+        gs = move_snakes(request)
         #     new_go = find_nearest_safe_food(snake, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2], gs.food)
         #     go_to = move(snake, new_go, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
         #     direction = Direction3D(go_to.to_list())
