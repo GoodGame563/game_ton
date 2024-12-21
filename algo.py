@@ -181,6 +181,9 @@ def new_algo_find_v2(snake: Snake, foods: List[Food], enemies: List[Enemy]) -> F
     result = []
 
     for food in foods:
+        if food.points < 0:
+            continue
+        
         x = food.c.root[0]
         y = food.c.root[1]
         z = food.c.root[2]
