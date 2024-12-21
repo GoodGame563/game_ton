@@ -16,7 +16,7 @@ def poke_anything(list_cord: Point3D, value: int):
 
 def poke_all_oranges(oranges: list[Food]):
     for orange in oranges:
-        poke_anything(orange.c, 2)
+        poke_anything(orange.c, orange.points)
 
 def poke_my_snakes(snakes: list[Snake]):
     for snake in snakes:

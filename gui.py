@@ -68,9 +68,9 @@ def visualize_3d_array_with_animation():
 
         # Установка пределов осей на основе gs.mapSize
         map_size = gs.mapSize
-        ax.set_xlim(0, map_size[0])
-        ax.set_ylim(0, map_size[1])
-        ax.set_zlim(0, map_size[2])
+        # ax.set_xlim(0, map_size[0])
+        # ax.set_ylim(0, map_size[1])
+        # ax.set_zlim(0, map_size[2])
 
         # Оформляем график
         ax.set_xlabel('X')

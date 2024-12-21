@@ -1,6 +1,6 @@
 from api_connect import get_map, move_snakes
 from field import return_fields
-from algo import find_orange, new_algo_find, find_nearest_safe_food
+from algo import find_orange, new_algo_find, find_nearest_safe_food, new_algo_find_v2
 from move import move, find_path, find_optimal_path
 from models import SnakeRequest, SnakeSmall, Direction3D, GameState, Snake
 from classes import Point
@@ -46,28 +46,58 @@ import numpy as np
     # print(len(go_to))  
 
 
-# while True:
-gs = get_map()
-if gs == None: 
-    print("Жду запуск")
-with open('data.json') as file:
-    gs = GameState(**json.load(file))
-array = return_fields(gs)
-go_to_snakes = []
-for snake in gs.snakes:
-    print(f"id snake {snake.id} snake status {snake.status} snake length {len (snake.geometry)} snake cord = {snake.geometry}")
-    if snake.status == "alive":
-        my_orage = new_algo_find(snake, gs.food)
-        print(my_orage)
-        new_go = find_nearest_safe_food(snake, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2], gs.food)
-        print(new_go)
-        # orage_cord = Point(my_orage.food.c.root[0], my_orage.food.c.root[1],my_orage.food.c.root[2])
-        go_to = move(snake, new_go, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
-        direction = Direction3D(go_to.to_list())
-        print(go_to)
-        # go_to_snakes.append(SnakeSmall(id = snake.id, direction = direction))
+while True:
+    gs = get_map()
+    if gs == None: 
+        print("Жду запуск")
+    # with open('data.json') as file:
+    #     gs = GameState(**json.load(file))
+    for food in gs.food:
+        if food.type != 0:
+            print(f"{food}")
+    array = return_fields(gs)
+    go_to_snakes = []
+    snake_num = 0
+    for snake in gs.snakes: 
+        print(f"snake number {snake_num} id snake {snake.id} snake status {snake.status} snake length {len (snake.geometry)}")
+        if snake_num == 0:
+            if snake.status == "alive":
+                my_orage = new_algo_find(snake, gs.food)
+                orage_cord = Point(my_orage.food.c.root[0], my_orage.food.c.root[1],my_orage.food.c.root[2])
+                go_to = move(snake, orage_cord, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
+                direction = Direction3D(go_to.to_list())
+                new_gs = move_snakes(SnakeRequest(snakes=[SnakeSmall(id = snake.id, direction = direction)]))
+            snake_num = 1
+        elif snake_num == 1:
+            if snake.status == "alive":
+                new_go = find_nearest_safe_food(snake, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2], gs.food)
+                go_to = move(snake, new_go, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
+                direction = Direction3D(go_to.to_list())
+                new_gs = move_snakes(SnakeRequest(snakes=[SnakeSmall(id = snake.id, direction = direction)]))
+            snake_num = 2
+        else: 
+            if snake.status == "alive":
+                new_go = new_algo_find_v2(snake, gs.food, gs.enemies)
+                orage_cord = Point(new_go.food.c.root[0], new_go.food.c.root[1],new_go.food.c.root[2])
+                go_to = move(snake, orage_cord, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
+                direction = Direction3D(go_to.to_list())
+                new_gs = move_snakes(SnakeRequest(snakes=[SnakeSmall(id = snake.id, direction = direction)]))
+            snake_number = 0
 
-        # new_gs = move_snakes(SnakeRequest(snakes=[SnakeSmall(id = snake.id, direction = direction)]))
         # if new_gs.errors != []:
         #     print(new_gs.errors)
-time.sleep(1)
+        # if snake.status == "alive":
+        #     my_orage = new_algo_find(snake, gs.food)
+        #     print(my_orage)
+        #     new_go = find_nearest_safe_food(snake, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2], gs.food)
+        #     print(new_go)
+        #     # orage_cord = Point(my_orage.food.c.root[0], my_orage.food.c.root[1],my_orage.food.c.root[2])
+        #     go_to = move(snake, new_go, array, gs.mapSize[0], gs.mapSize[1], gs.mapSize[2])
+        #     direction = Direction3D(go_to.to_list())
+        #     print(go_to)
+        #     # go_to_snakes.append(SnakeSmall(id = snake.id, direction = direction))
+
+            # new_gs = move_snakes(SnakeRequest(snakes=[SnakeSmall(id = snake.id, direction = direction)]))
+            # if new_gs.errors != []:
+            #     print(new_gs.errors)
+    time.sleep(0.2)
