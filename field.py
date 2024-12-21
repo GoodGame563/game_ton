@@ -10,7 +10,7 @@ def create_field(map_size_x, map_size_y, map_size_z):
 def poke_anything(list_cord: Point3D, value: int):
     global array
     try:
-        array[list_cord.root[0]%10][list_cord.root[1]%10][list_cord.root[2]%10] = np.int32(value)
+        array[list_cord.root[0]][list_cord.root[1]][list_cord.root[2]] = np.int32(value)
     except IndexError:
         print("Index out of range")
 
